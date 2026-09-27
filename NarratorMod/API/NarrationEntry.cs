@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace NarratorMod.API;
 
-public class NarrationEntry(IntPtr ptr) : ScriptableObject(ptr)
+public class NarrationEntry : ScriptableObject
 {
+    public NarrationEntry(IntPtr ptr) : base(ptr) { }
+        
     /// <summary>
     /// Key used to trigger or identify this entry (e.g., "vent_01" or "kill").
     /// </summary>

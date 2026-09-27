@@ -10,13 +10,20 @@ public class MeetingPopoverPatches
     [HarmonyPostfix]
     public static void OpenPatch()
     {
-        Logger<NarratorModPlugin>.Info("Meeting pop-over opened");
+        NarrationEvents.RaiseMeetingPopOverOpen();
     }
     
     [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.OnDisable))]
     [HarmonyPostfix]
     public static void ClosePatch()
     {
-        Logger<NarratorModPlugin>.Info("Meeting pop-over closed");
+        NarrationEvents.RaiseMeetingPopOverClose();
+    }
+    
+    [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.CallMeeting))]
+    [HarmonyPostfix]
+    public static void CallMeetingPatch()
+    {
+        NarrationEvents.RaiseMeetingStart();
     }
 }

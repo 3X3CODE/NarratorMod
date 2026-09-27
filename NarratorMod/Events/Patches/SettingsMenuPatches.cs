@@ -10,15 +10,13 @@ public class SettingsMenuPatches
     [HarmonyPostfix]
     public static void OpenSettings()
     {
-        if (!AmongUsClient.Instance.AmHost)
-        {
-            // non host views settings
-            Logger<NarratorModPlugin>.Info("Non host player is viewing settings"); 
-        }
-        else
-        {
-            // host
-            Logger<NarratorModPlugin>.Info("Host is viewing settings"); 
-        }
+        NarrationEvents.RaiseViewSettings();
+    }
+
+    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.ValueChanged))]
+    [HarmonyPostfix]
+    public static void ChangeSetting(OptionBehaviour option)
+    {
+        NarrationEvents.RaiseChangeSetting(option);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace NarratorMod.Conditions;
 
-public interface INarrationConditions
+public interface INarrationCondition
 {
     void Subscribe();
 }

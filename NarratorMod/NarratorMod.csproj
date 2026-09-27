@@ -32,4 +32,8 @@
       <EmbeddedResource Include="Resources\narrator-mod-win.bundle" />
     </ItemGroup>
 
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;%APPDATA%\allofus\Starlight\data\profiles\uniprofile-1788883219966\BepInEx\plugins&quot;" />
+    </Target>
+
 </Project>

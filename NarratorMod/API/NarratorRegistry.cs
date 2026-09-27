@@ -32,23 +32,17 @@ public class NarratorRegistry
         }
     }
     
-    public static void TriggerEvent(string eventKey)
+    public static void TriggerEvent(string eventKey, int priority = 0)
     {
         if (ActiveNarrator == null) return;
 
-        NarrationEntry? entry = ActiveNarrator.GetEntry(eventKey);
-        Logger<NarratorModPlugin>.Info("Taking entry");
+        NarrationEntry? clip = ActiveNarrator.GetEntry(eventKey);
+        if (clip == null)
+        {
+            Logger<NarratorModPlugin>.Warning($"No narration entry found for key '{eventKey}'");
+            return;
+        }
 
-        foreach (var asset in ActiveNarrator.Database.GetAllEntries())
-        {
-            Logger<NarratorModPlugin>.Info(asset.Key.Value);
-        }
-        
-        if (entry != null)
-        {
-            Logger<NarratorModPlugin>.Info("Taking clip from entry");
-            AudioClip clip = entry.Clip;
-            NarrationManager.AddToQueue(clip);
-        }
+        NarrationManager.Enqueue(clip, priority);
     }
 }

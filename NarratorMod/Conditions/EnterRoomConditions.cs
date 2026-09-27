@@ -3,7 +3,7 @@ using NarratorMod.Events;
 
 namespace NarratorMod.Conditions;
 
-public class EnterRoomConditions : INarrationConditions
+public class EnterRoomConditions : INarrationCondition
 {
     public void Subscribe()
     {
@@ -12,6 +12,6 @@ public class EnterRoomConditions : INarrationConditions
 
     public void OnEnterRoom(SystemTypes room)
     {
-        NarratorRegistry.TriggerEvent("");
+        NarratorRegistry.TriggerEvent($"room.enter.{room.ToString()}");
     }
 }
