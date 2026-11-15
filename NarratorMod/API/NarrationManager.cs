@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NarratorMod.Components;
+using NarratorMod.Components.Subtitles;
+using NarratorMod.Extensions;
 using Reactor.Utilities;
 using UnityEngine;
 
@@ -12,19 +15,15 @@ public static class NarrationManager
     
     private class QueueItem
     {
-        public NarrationEntry? Clip;
+        public NarrationEntryNormal? Clip;
         public int Priority;
     }
 
     private static readonly List<QueueItem> Queue = new();
+    public static event Action<NarrationEntryNormal>? OnClipStarted;
+    public static event Action<NarrationEntryNormal>? OnClipFinished;
 
-    /// Fired right when a clip starts playing — subscribe here to show captions.
-    public static event Action<NarrationEntry>? OnClipStarted;
-
-    /// Fired when a clip finishes playing — subscribe here to hide captions.
-    public static event Action<NarrationEntry>? OnClipFinished;
-
-    public static void Enqueue(NarrationEntry clip, int priority = 0)
+    public static void Enqueue(NarrationEntryNormal clip, int priority = 0)
     {
         if (clip?.Clip == null)
         {
@@ -46,7 +45,7 @@ public static class NarrationManager
 
     public static void Dequeue(string key)
     {
-        int indexToRemove = Queue.RemoveAll(p => p.Clip.Key.Value.Contains(key));
+        int indexToRemove = Queue.RemoveAll(p => p.Clip.Key.Contains(key));
     }
 
     public static void StopPlayingCurrent()
@@ -66,7 +65,10 @@ public static class NarrationManager
                 if (item.Clip?.Clip != null)
                 {
                     PlayClip(item.Clip);
-                    yield return new WaitForSeconds(item.Clip.Clip.Value.length);
+                    SubtitleManager.Instance.StartSubtitle(item.Clip.Subtitle, NarratorRegistry.ActiveNarrator.Name, item.Clip.Clip.length, SubtitleRegistry.ActiveSubtitle);
+                    Logger<NarratorModPlugin>.Info($"{item.Clip.Subtitle}");
+                    yield return new WaitForSeconds(item.Clip.Clip.length);
+                    //SubtitleManager.Instance.StopSubtitle();
                     OnClipFinished?.Invoke(item.Clip);
                 }
             }
@@ -75,7 +77,7 @@ public static class NarrationManager
         }
     }
 
-    private static void PlayClip(NarrationEntry clip)
+    private static void PlayClip(NarrationEntryNormal clip)
     {
         Logger<NarratorModPlugin>.Info($"Playing narration '{clip.Key}'");
         Source = SoundManager.Instance.PlaySound(clip.Clip, false);

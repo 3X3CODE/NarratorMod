@@ -4,26 +4,24 @@ namespace NarratorMod.API;
 
 public class NarrationEntryDatabase
 {
-    private readonly Dictionary<string, NarrationEntry> _entriesByExactKey = new(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<string, List<NarrationEntry>> _groupedEntries = new(StringComparer.OrdinalIgnoreCase);
-    private readonly System.Random _random = new();
+    private readonly Dictionary<string, NarrationEntryNormal> _entriesByExactKey = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, List<NarrationEntryNormal>> _groupedEntries = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Random _random = new();
 
     /// <summary>
     /// Adds a populated entry to the database and builds prefix index.
     /// </summary>
-    public void AddEntry(NarrationEntry entry)
+    public void AddEntry(NarrationEntryNormal entry)
     {
         if (entry == null || string.IsNullOrWhiteSpace(entry.Key)) return;
-
-        //string cleanKey = entry.Key.Value.Trim().ToLower();
-        string cleanKey = entry.Key.Value;
+        
+        string cleanKey = entry.Key;
         _entriesByExactKey[cleanKey] = entry;
         
-        Logger<NarratorModPlugin>.Info(cleanKey);
-
-        // Grouping logic: "vent_01" -> group prefix "vent"
+        //Logger<NarratorModPlugin>.Info(cleanKey);
+        
         string groupKey = cleanKey;
-        int lastUnderscore = cleanKey.LastIndexOf('_');
+        int lastUnderscore = cleanKey.LastIndexOf('.');
         if (lastUnderscore > 0)
         {
             groupKey = cleanKey.Substring(0, lastUnderscore);
@@ -31,13 +29,13 @@ public class NarrationEntryDatabase
 
         if (!_groupedEntries.ContainsKey(groupKey))
         {
-            _groupedEntries[groupKey] = new List<NarrationEntry>();
+            _groupedEntries[groupKey] = new List<NarrationEntryNormal>();
         }
         _groupedEntries[groupKey].Add(entry);
-        Logger<NarratorModPlugin>.Info(groupKey);
+        //Logger<NarratorModPlugin>.Info(groupKey);
     }
     
-    public NarrationEntry GetEntry(string key)
+    public NarrationEntryNormal GetEntry(string key)
     {
         Logger<NarratorModPlugin>.Info(key);
         if (string.IsNullOrWhiteSpace(key)) return null;
@@ -47,8 +45,11 @@ public class NarrationEntryDatabase
         // Direct match check
         if (_entriesByExactKey.TryGetValue(clean, out var exactMatch))
         {
-            if (exactMatch == null) Logger<NarratorModPlugin>.Info("entry was null");
-            return exactMatch;
+            if (exactMatch == null)
+            {
+                Logger<NarratorModPlugin>.Info("exact entry was null");
+            }
+            else return exactMatch;
         }
 
         // Fall back to prefix group match
@@ -60,5 +61,5 @@ public class NarrationEntryDatabase
         return null;
     }
 
-    public IReadOnlyCollection<NarrationEntry> GetAllEntries() => _entriesByExactKey.Values;
+    public IReadOnlyCollection<NarrationEntryNormal> GetAllEntries() => _entriesByExactKey.Values;
 }

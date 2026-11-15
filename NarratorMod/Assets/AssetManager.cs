@@ -25,9 +25,18 @@ public class AssetManager
         return bundle;
     }
 
-    public static T? LoadAsset<T>(string assetName, string bundleId) where T : UnityEngine.Object
+    public static T? LoadAsset<T>(string assetName, string bundleId = "") where T : UnityEngine.Object
     {
-        if (!LoadedBundles.ContainsKey(bundleId)) return null;
+        if (bundleId == String.Empty)
+        {
+            foreach (var bundle in LoadedBundles.Values)
+            {
+                if (bundle.Contains(assetName))
+                    return bundle.LoadAsset<T>(assetName);
+            }
+        }
+        
+        else if (!LoadedBundles.ContainsKey(bundleId)) return null;
         
         return LoadedBundles[bundleId].LoadAsset<T>(assetName);
     }

@@ -8,7 +8,10 @@ public interface INarrator
     string Id { get; }
     string Name { get; }
     string Author { get; }
-    // string BundleName { get; }
+    NarratorGenders Gender { get; }
+    string BundleId { get; }
+    Sprite? ProfileImage { get; }
+    
     NarrationEntryDatabase Database { get; }
-    NarrationEntry? GetEntry(string clipKey);
+    NarrationEntryNormal? GetEntry(string clipKey);
 }

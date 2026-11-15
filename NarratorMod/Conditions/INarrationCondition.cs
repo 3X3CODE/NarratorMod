@@ -3,4 +3,5 @@
 public interface INarrationCondition
 {
     void Subscribe();
+    void Unsubscribe();
 }

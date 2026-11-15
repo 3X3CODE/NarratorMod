@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using NarratorMod.Events.Enums;
 using Reactor.Utilities;
 
 namespace NarratorMod.Events.Patches;
@@ -10,20 +11,21 @@ public class MeetingPopoverPatches
     [HarmonyPostfix]
     public static void OpenPatch()
     {
-        NarrationEvents.RaiseMeetingPopOverOpen();
+        //NarrationEvents.RaiseMeetingPopOverToggle(true);
+        NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenButton);
     }
     
-    [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.OnDisable))]
+    /*[HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.OnDisable))]
     [HarmonyPostfix]
     public static void ClosePatch()
     {
-        NarrationEvents.RaiseMeetingPopOverClose();
-    }
+        NarrationEvents.RaiseMeetingPopOverToggle(false);
+    }*/
     
-    [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.CallMeeting))]
+    /*[HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.CallMeeting))]
     [HarmonyPostfix]
     public static void CallMeetingPatch()
     {
-        NarrationEvents.RaiseMeetingStart();
-    }
+        NarrationEvents.RaiseMeetingEvent(MeetingEvents.Start, null);
+    }*/
 }

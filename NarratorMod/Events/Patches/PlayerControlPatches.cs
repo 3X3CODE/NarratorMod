@@ -13,22 +13,26 @@ public class PlayerControlPatches
     [HarmonyPostfix]
     public static void EnterRoomPatch()
     {
+        if (!PlayerControl.LocalPlayer) return;
         Vector3 playerPos = PlayerControl.LocalPlayer.GetTruePosition();
         
         SystemTypes currentRoom = LastRoom;
 
-        foreach (var room in ShipStatus.Instance.AllRooms)
+        if (ShipStatus.Instance)
         {
-            if (room.roomArea.OverlapPoint(playerPos))
+            foreach (var room in ShipStatus.Instance.AllRooms)
             {
-                currentRoom = room.RoomId;
+                if (room.roomArea.OverlapPoint(playerPos))
+                {
+                    currentRoom = room.RoomId;
+                }
             }
-        }
-
-        if (currentRoom != LastRoom)
-        {
-            LastRoom = currentRoom;
-            NarrationEvents.RaiseEnterRoom(LastRoom);
+    
+            if (currentRoom != LastRoom)
+            {
+                LastRoom = currentRoom;
+                NarrationEvents.RaiseRoomChangeEvent(LastRoom);
+            }
         }
         
         TaskPatches.Deteriorate();

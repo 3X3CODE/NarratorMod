@@ -1,13 +1,19 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using NarratorMod.API;
 using NarratorMod.Assets;
+using NarratorMod.Components.Subtitles;
+using NarratorMod.Conditions;
 using NarratorMod.Narrators;
 using Reactor;
 using Reactor.Utilities;
-using UnityEngine;
+
+// welcome to narrator mod version 3
+
+// im having an aneurism <3
 
 namespace NarratorMod;
 
@@ -20,6 +26,9 @@ public class NarratorModPlugin : BasePlugin
     public const string Name = "Narrator Mod";
     public const string Version = "1.0.0-dev";
 
+    public static string LanguageOption;
+    public static bool SwearOption;
+
     public static bool IsDevBuild => Version.Contains("dev");
 
     public static Harmony Harmony { get; } = new(Id);
@@ -29,14 +38,12 @@ public class NarratorModPlugin : BasePlugin
         ClassInjector.RegisterTypeInIl2Cpp<NarrationEntry>();
         
         Harmony.PatchAll();
+        AssetManager.LoadBundle("narrator-mod");
+        NarratorRegistry.RegisterNarrator(new JacklerNarrator());
+        ConditionManager.RegisterAllFromAssembly();
+        SubtitleRegistry.RegisterAllFromAssembly();
         ReactorCredits.Register(Name, Version, IsDevBuild, ReactorCredits.AlwaysShow);
         
-        AssetBundle bundle = AssetManager.LoadBundle("narrator-mod");
-        foreach (var asset in bundle.GetAllAssetNames())
-        {
-            Logger<NarratorModPlugin>.Info(asset);
-        }
-        
-        NarratorRegistry.RegisterNarrator(new JacklerNarrator());
+        Log.LogMessage($"{Name} {Version} loaded successfully");
     }
 }

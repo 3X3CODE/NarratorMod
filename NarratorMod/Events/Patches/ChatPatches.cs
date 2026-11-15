@@ -10,6 +10,6 @@ public class ChatPatches
     [HarmonyPrefix]
     public static void CheckChatData(PlayerControl sourcePlayer, string chatText)
     {
-        NarrationEvents.RaiseSendChatMessage(sourcePlayer, chatText);
+        //NarrationEvents.RaiseSendChatMessage(sourcePlayer, chatText);
     }
 }

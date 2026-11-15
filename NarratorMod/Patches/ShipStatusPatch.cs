@@ -11,11 +11,6 @@ public class ShipStatusPatch
 {
     public static void Postfix(ShipStatus __instance)
     {
-        //NarratorRegistry.RegisterNarrator(new JacklerNarrator());
-        
         __instance.StartCoroutine(NarrationManager.CycleQueue());
-        NarratorRegistry.TriggerEvent("electrical");
-        
-        Logger<NarratorModPlugin>.Info("Clip triggered");
     }
 }

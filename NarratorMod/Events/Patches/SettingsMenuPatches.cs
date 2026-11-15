@@ -6,7 +6,7 @@ namespace NarratorMod.Events.Patches;
 [HarmonyPatch]
 public class SettingsMenuPatches
 {
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.OnEnable))]
+    /*[HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.OnEnable))]
     [HarmonyPostfix]
     public static void OpenSettings()
     {
@@ -18,5 +18,5 @@ public class SettingsMenuPatches
     public static void ChangeSetting(OptionBehaviour option)
     {
         NarrationEvents.RaiseChangeSetting(option);
-    }
+    }*/
 }

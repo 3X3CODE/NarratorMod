@@ -12,55 +12,83 @@ public abstract class BaseNarrator : INarrator
     public abstract string Id { get; }
     public abstract string Name { get; }
     public abstract string Author { get; }
-    
+    public abstract NarratorGenders Gender { get; }
+    public abstract string BundleId { get; }
+    public Sprite? ProfileImage { get; private set; }
+
     public NarrationEntryDatabase Database { get; } = new();
 
-    public NarrationEntry? GetEntry(string eventKey)
+    public NarrationEntryNormal? GetEntry(string eventKey)
     {
         return Database.GetEntry(eventKey);
     }
     
-    public void AutoGenerateEntries(string bundleId)
+    public void AutoGenerateFromBundle()
     {
-        AssetBundle? bundle = AssetManager.LoadBundle(bundleId);
+        Logger<NarratorModPlugin>.Info($"Auto generating entries from bundle : {BundleId}");
+        
+        AssetBundle? bundle = AssetManager.LoadBundle(BundleId);
         if (bundle == null)
         {
-            Debug.LogError($"[NarratorMod] Failed to load AssetBundle: {bundleId}");
+            Logger<NarratorModPlugin>.Error($"Failed to load AssetBundle: {BundleId}");
             return;
         }
 
         foreach (var assetPath in bundle.GetAllAssetNames())
         {
+            //Logger<NarratorModPlugin>.Info($"{assetPath}");
             var clip = bundle.LoadAsset<NarrationEntry>(assetPath);
-            if (clip == null) continue;
+            
+            string cleanPath = assetPath.Replace('\\', '/').ToLowerInvariant();
+            string[] segments = cleanPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            string rawFileName = Path.GetFileNameWithoutExtension(assetPath).ToLower();
+            if (segments[1] == "narrators" && segments[2] == Id)
+            {
+                if (segments[^1] == "profile-image.png")
+                {
+                    var image = bundle.LoadAsset<Sprite>(assetPath);
+                    if (image != null)
+                    {
+                        ProfileImage = image.DontUnload();
+                        continue;
+                    }
+                }
+                
+                NarratorRegistry.AddLanguage(segments[3]);
 
-            // Auto-populate NarratorEntry using file conventions
-            /*var entry = new NarrationEntry
-            {
-                Key = rawFileName,
-                ClipName = assetPath,
-                Clip = clip,
-                Language = "English",
-                ContainsSwearWords = rawFileName.Contains("explicit") || rawFileName.Contains("swear"),
-                Subtitle = $"[Playing {rawFileName}]" // Default caption fallback
-            };*/
-            Logger<NarratorModPlugin>.Info($"Searching for clip {clip.ClipName}");
-            AudioClip audioClip = bundle.LoadAsset<AudioClip>(clip.ClipName);
-            if (audioClip != null)
-            {
-                audioClip.DontUnload();
-                clip.Clip.Value = audioClip;
-                clip.DontUnload();
+                if (clip == null) continue;
+                
+                NarrationEntryNormal newClip = new(GenerateKey(segments), clip.Subtitle.Value, "", clip.ContainsSwearWords.Value, clip.Clip.Value.DontUnload());
+                
+                Database.AddEntry(newClip);
             }
-            else Logger<NarratorModPlugin>.Info($"AudioClip null");
-            
-            Logger<NarratorModPlugin>.Info($"Adding");
-            
-            Database.AddEntry(clip);
-            
-            Logger<NarratorModPlugin>.Info($"Added to database");
         }
+        
+        Logger<NarratorModPlugin>.Info($"Autogeneration complete");
+    }
+    
+    private string GenerateKey(string[] segments)
+    {
+        //Logger<NarratorModPlugin>.Info($"Generating key...");
+        
+        if (segments.Length < 4)
+        {
+            // return file name
+            //Logger<NarratorModPlugin>.Info("Returning file name");
+            return Path.GetFileNameWithoutExtension(segments[^1]);
+        }
+        
+        int keySegmentCount = segments.Length - 3;
+        string[] keySegments = new string[keySegmentCount];
+        
+        Array.Copy(segments, 3, keySegments, 0, keySegmentCount);
+        
+        keySegments[^1] = Path.GetFileNameWithoutExtension(keySegments[^1]);
+
+        string key = string.Join(".", keySegments);
+        
+        //Logger<NarratorModPlugin>.Info($"Clip generated: {key}");
+
+        return key;
     }
 }

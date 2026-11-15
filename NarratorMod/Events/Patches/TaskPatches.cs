@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using NarratorMod.API;
+using NarratorMod.Events.Enums;
 using UnityEngine;
 
 namespace NarratorMod.Events.Patches;
@@ -19,14 +20,14 @@ public class TaskPatches
         TaskTime = 0f;
     }
     
-    [HarmonyPatch(typeof(Minigame), nameof(Minigame.Close))]
+    [HarmonyPatch(typeof(Minigame), nameof(Minigame.Close), new Type[0])]
     [HarmonyPostfix]
     public static void OnTaskClose()
     {
         if (IsDoingTask && TaskTime < 10f)
         {
             // took too short on task
-            
+            NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.FastTask);
         }
 
         IsDoingTask = false;
@@ -44,7 +45,11 @@ public class TaskPatches
     [HarmonyPostfix]
     public static void OnTaskComplete()
     {
-        
+        if (PlayerControl.LocalPlayer.AllTasksCompleted())
+        {
+            // all tasks completed
+            NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.CompleteAllTasks);
+        }
     }
 
     public static void Deteriorate()
@@ -56,6 +61,7 @@ public class TaskPatches
             if (TaskTime > 10f)
             {
                 TaskTime = 0f;
+                NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.LongTask);
             }
         }
         else
@@ -64,7 +70,7 @@ public class TaskPatches
             
             if (IdleTime > 20f)
             {
-                
+                NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.NoTask);
             }
         }
     }
