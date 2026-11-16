@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿/*using HarmonyLib;
 using NarratorMod.API;
 using UnityEngine.Events;
 
@@ -11,7 +11,7 @@ public class MainMenuPatches
     [HarmonyPostfix]
     public static void ButtonRegistrations(MainMenuManager __instance)
     {
-        /*__instance.inventoryButton.OnClick.AddListener((Action)(() =>
+        __instance.inventoryButton.OnClick.AddListener((Action)(() =>
         {
             NarrationEvents.RaiseHoverMenuButton("inventory");
         }));
@@ -34,6 +34,6 @@ public class MainMenuPatches
         __instance.playLocalButton.OnClick.AddListener((Action)(() =>
         {
             NarrationEvents.RaiseHoverMenuButton("local");
-        }));*/
+        }));
     }
-}
+}*/

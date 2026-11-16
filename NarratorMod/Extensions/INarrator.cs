@@ -11,6 +11,7 @@ public interface INarrator
     NarratorGenders Gender { get; }
     string BundleId { get; }
     Sprite? ProfileImage { get; }
+    AudioClip? TrialAudio { get; }
     
     NarrationEntryDatabase Database { get; }
     NarrationEntryNormal? GetEntry(string clipKey);

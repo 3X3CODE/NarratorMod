@@ -25,11 +25,7 @@ public class SettingsManager : MonoBehaviour
     public PassiveButton? previousNarratorButton;
     public PassiveButton? nextNarratorButton;
     public PassiveButton? playNarratorVoiceButton;
-
-    public SettingsOption? languageOption;
-    public SettingsOption? swearOption;
-    public SettingsOption? subtitleOption;
-
+    
     public void Awake()
     {
         if (Instance != null)
@@ -53,47 +49,16 @@ public class SettingsManager : MonoBehaviour
             .GetComponent<PassiveButton>();
         nextNarratorButton = transform.Find("Scroller/Slider/NarratorSettings/BottomHeader/NextButton")
             .GetComponent<PassiveButton>();
+        playNarratorVoiceButton = transform.Find("Scroller/Slider/NarratorSettings/BottomHeader/PlayAudioButton")
+            .GetComponent<PassiveButton>();
 
-        languageOption = transform.Find("Scroller/Slider/OtherSettings/LanguageOption").gameObject.AddComponent<SettingsOption>();
-        swearOption = transform.Find("Scroller/Slider/OtherSettings/SwearOption").gameObject.AddComponent<SettingsOption>();
-        subtitleOption = transform.Find("Scroller/Slider/OtherSettings/SubtitleOption").gameObject.AddComponent<SettingsOption>();
-        
-        languageOption.nextButton.OnClick.AddListener((Action)(() =>
-        {
-            NarratorRegistry.NextLanguage();
-        }));
-        
-        languageOption.previousButton.OnClick.AddListener((Action)(() =>
-        {
-            NarratorRegistry.PreviousLanguage();
-        }));
-        
-        swearOption.nextButton.OnClick.AddListener((Action)(() =>
-        {
-            NarratorRegistry.AllowSwear = !NarratorRegistry.AllowSwear;
-            UpdateSwear(NarratorRegistry.AllowSwear);
-        }));
-        
-        swearOption.previousButton.OnClick.AddListener((Action)(() =>
-        {
-            NarratorRegistry.AllowSwear = !NarratorRegistry.AllowSwear;
-            UpdateSwear(NarratorRegistry.AllowSwear);
-        }));
-        
-        subtitleOption.nextButton.OnClick.AddListener((Action)(() =>
-        {
-            UpdateSubtitle(SubtitleRegistry.SetNext());
-        }));
-        
-        subtitleOption.previousButton.OnClick.AddListener((Action)(() =>
-        {
-            UpdateSubtitle(SubtitleRegistry.SetPrevious());
-        }));
-        
-        NarratorRegistry.NextLanguage();
+        transform.Find("Scroller/Slider/OtherSettings/LanguageOption").gameObject.AddComponent<SettingsOption>();
+        transform.Find("Scroller/Slider/OtherSettings/SwearOption").gameObject.AddComponent<SettingsOption>();
+        transform.Find("Scroller/Slider/OtherSettings/SubtitleOption").gameObject.AddComponent<SettingsOption>();
         
         previousNarratorButton.OnClick.RemoveAllListeners();
         nextNarratorButton.OnClick.RemoveAllListeners();
+        playNarratorVoiceButton.OnClick.RemoveAllListeners();
         
         nextNarratorButton.OnClick.AddListener((Action)(() =>
         {
@@ -104,11 +69,21 @@ public class SettingsManager : MonoBehaviour
         {
             NarratorRegistry.PreviousNarrator();
         }));
+        
+        playNarratorVoiceButton.OnClick.AddListener((Action)(() =>
+        {
+            PlayTrialAudio();
+        }));
 
         if (NarratorRegistry.ActiveNarrator != null)
         {
             UpdateNarrator(NarratorRegistry.ActiveNarrator);
         }
+    }
+    
+    public void PlayTrialAudio()
+    {
+        NarratorRegistry.TriggerEvent("voice-trial");
     }
 
     public void UpdateNarrator(INarrator narrator)
@@ -123,22 +98,28 @@ public class SettingsManager : MonoBehaviour
             if (image != null) narratorImageRend.sprite = image;
         }
     }
-
-    public void UpdateLanguage(string language)
+    
+    public void UpdateSetting(SettingsOption option, bool next)
     {
-        languageOption.UpdateValue(language);
-        Logger<NarratorModPlugin>.Info("language updated");
-    }
-
-    public void UpdateSwear(bool allow)
-    {
-        swearOption.UpdateValue(allow ? "Yes" : "No");
-        Logger<NarratorModPlugin>.Info("swear updated");
-    }
-
-    public void UpdateSubtitle(string subtitle)
-    {
-        subtitleOption.UpdateValue(subtitle);
-        Logger<NarratorModPlugin>.Info("subtitle updated");
+        switch (option.OptionName)
+        {
+            case "LanguageOption":
+                if (next)
+                {
+                    NarratorRegistry.NextLanguage();
+                }
+                else NarratorRegistry.PreviousLanguage();
+                option.UpdateValue(NarratorRegistry.ActiveLanguage);
+                break;
+            case "SwearOption":
+                NarratorRegistry.AllowSwear = !NarratorRegistry.AllowSwear;
+                option.UpdateValue(NarratorRegistry.AllowSwear ? "Yes" : "No");
+                break;
+            case "SubtitleOption":
+                if (next) SubtitleRegistry.SetNext();
+                else SubtitleRegistry.SetPrevious();
+                option.UpdateValue(SubtitleRegistry.ActiveSubtitle.GetType().Name);
+                break;
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
@@ -25,9 +24,6 @@ public class NarratorModPlugin : BasePlugin
     public const string Id = "com.exec.narratormod";
     public const string Name = "Narrator Mod";
     public const string Version = "1.0.0-dev";
-
-    public static string LanguageOption;
-    public static bool SwearOption;
 
     public static bool IsDevBuild => Version.Contains("dev");
 

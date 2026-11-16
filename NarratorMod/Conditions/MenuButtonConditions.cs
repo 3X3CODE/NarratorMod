@@ -1,4 +1,4 @@
-﻿using NarratorMod.API;
+﻿/*using NarratorMod.API;
 using NarratorMod.Events;
 using Reactor.Utilities;
 
@@ -22,4 +22,4 @@ public class MenuButtonConditions : INarrationCondition
         
         Logger<NarratorModPlugin>.Info($"Menu button clicked: {button}");
     }
-}
+}*/

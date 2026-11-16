@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using BepInEx.Unity.IL2CPP.Utils;
+using HarmonyLib;
+using NarratorMod.API;
 using NarratorMod.Components.Subtitles;
 using UnityEngine;
 
@@ -14,5 +16,8 @@ public class HudManagerPatches
         GameObject obj = new GameObject("NMSubtitleManager");
         obj.transform.SetParent(__instance.transform);
         obj.AddComponent<SubtitleManager>();
+        
+        NarrationManager.ClearQueue();
+        __instance.StartCoroutine(NarrationManager.CycleQueue());
     }
 }

@@ -34,14 +34,15 @@ public class NarrationEntryDatabase
         _groupedEntries[groupKey].Add(entry);
         //Logger<NarratorModPlugin>.Info(groupKey);
     }
-    
+
     public NarrationEntryNormal GetEntry(string key)
     {
         Logger<NarratorModPlugin>.Info(key);
         if (string.IsNullOrWhiteSpace(key)) return null;
-        string clean = key.ToLower();
-        Logger<NarratorModPlugin>.Info(clean);
+        string clean = $"{NarratorRegistry.ActiveLanguage}.{key.ToLower()}";
 
+        Logger<NarratorModPlugin>.Info(clean);
+        
         // Direct match check
         if (_entriesByExactKey.TryGetValue(clean, out var exactMatch))
         {
@@ -49,13 +50,17 @@ public class NarrationEntryDatabase
             {
                 Logger<NarratorModPlugin>.Info("exact entry was null");
             }
-            else return exactMatch;
+
+            if (exactMatch.ContainsSwearWords != NarratorRegistry.AllowSwear) return null;
+            return exactMatch;
         }
 
         // Fall back to prefix group match
         if (_groupedEntries.TryGetValue(clean, out var group) && group.Count > 0)
         {
-            return group[_random.Next(group.Count)];
+            List<NarrationEntryNormal> filteredGroupList =
+                group.Where(item => item.ContainsSwearWords == NarratorRegistry.AllowSwear).ToList();
+            return filteredGroupList[_random.Next(group.Count)];
         }
 
         return null;

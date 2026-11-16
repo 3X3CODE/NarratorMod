@@ -70,13 +70,9 @@ public sealed class CreditsScreenManager : MonoBehaviour
     public GameObject GetPuller()
     {
         if (_puller) return _puller;
-
-        var prefab = Assets.PresetAssets.CreditsPullerPrefab;
-        if (prefab == null) return null;
-
-        // _puller = Instantiate(prefab);
+        
         _puller = transform.Find("PullerPrefab").gameObject;
-        // _puller.name = "NarratorModPuller";
+        
         CreditsScreenPuller comp = _puller.AddComponent<CreditsScreenPuller>();
         
         comp.OnTargetReached += () =>

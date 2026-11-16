@@ -22,37 +22,37 @@ public class MeetingConditions : INarrationCondition
         switch (meetingEvent)
         {
             case MeetingEvents.FastVote:
-                NarratorRegistry.TriggerEvent($"English.Meeting.FastVote");
+                NarratorRegistry.TriggerEvent($"Meeting.FastVote");
                 break;
             case MeetingEvents.LateVote:
-                NarratorRegistry.TriggerEvent($"English.Meeting.LateVote");
+                NarratorRegistry.TriggerEvent($"Meeting.LateVote");
                 break;
             case MeetingEvents.NoVote:
-                NarratorRegistry.TriggerEvent($"English.Meeting.NoVote");
+                NarratorRegistry.TriggerEvent($"Meeting.NoVote");
                 break;
             case MeetingEvents.SkipVote:
-                NarratorRegistry.TriggerEvent($"English.Meeting.SkipVote");
+                NarratorRegistry.TriggerEvent($"Meeting.SkipVote");
                 break;
             case MeetingEvents.OpenChat:
-                NarratorRegistry.TriggerEvent($"English.Meeting.OpenChat");
+                NarratorRegistry.TriggerEvent($"Meeting.OpenChat");
                 break;
             case MeetingEvents.OpenButton:
-                NarratorRegistry.TriggerEvent($"English.Meeting.PopoverOpen");
+                NarratorRegistry.TriggerEvent($"Meeting.PopoverOpen");
                 break;
             case MeetingEvents.VoteCrew:
-                NarratorRegistry.TriggerEvent($"English.Meeting.VoteCrewmate");
+                NarratorRegistry.TriggerEvent($"Meeting.VoteCrewmate");
                 break;
             case MeetingEvents.VoteImpostor:
-                NarratorRegistry.TriggerEvent($"English.Meeting.VoteImpostor");
+                NarratorRegistry.TriggerEvent($"Meeting.VoteImpostor");
                 break;
             case MeetingEvents.VotedAsCrew:
-                NarratorRegistry.TriggerEvent($"English.Meeting.VotedOutAsCrew");
+                NarratorRegistry.TriggerEvent($"Meeting.VotedOutAsCrew");
                 break;
             case MeetingEvents.VotedAsImpostor:
-                NarratorRegistry.TriggerEvent($"English.Meeting.VotedOutAsImpostor");
+                NarratorRegistry.TriggerEvent($"Meeting.VotedOutAsImpostor");
                 break;
             case MeetingEvents.VotingAlmostDone:
-                NarratorRegistry.TriggerEvent($"English.Meeting.VotingAlmostOver");
+                NarratorRegistry.TriggerEvent($"Meeting.VotingAlmostOver");
                 break;
         }
     }

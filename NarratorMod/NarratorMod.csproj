@@ -37,7 +37,7 @@
     </Target>
 
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-      <Exec Command="copy /Y &quot;$(ProjectDir)\..\..\NarratorModRewrite\NarratorModUnity\AssetBundles\StandaloneWindows\narrator-mod-win.bundle&quot; &quot;$(ProjectDir)\Resources&quot;" />
+      <Exec Command="copy /Y &quot;$(ProjectDir)\..\..\NarratorModRewrite\NarratorModUnity\AssetBundles\StandaloneWindows\narrator-mod-win.bundle&quot; &quot;$(ProjectDir)\Resources&quot;&#xA;&#xA;copy /Y &quot;$(ProjectDir)\..\..\NarratorModRewrite\NarratorModUnity\AssetBundles\Android\narrator-mod-win.bundle&quot; &quot;$(ProjectDir)\Resources\narrator-mod-android.bundle&quot;" />
     </Target>
 
 </Project>

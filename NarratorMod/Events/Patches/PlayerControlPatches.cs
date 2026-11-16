@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using NarratorMod.Events.Enums;
+using Reactor.Utilities;
 using UnityEngine;
 
 namespace NarratorMod.Events.Patches;
@@ -8,8 +10,19 @@ public class PlayerControlPatches
 {
     public static SystemTypes LastRoom;
     public static bool IsPlayerOnCard;
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
+    [HarmonyPostfix]
+    public static void MurderPatch(PlayerControl target, bool didSucceed)
+    {
+        if (didSucceed)
+        {
+            NarrationEvents.RaiseImpostorEvent(ImpostorEvents.Kill);
+            Logger<NarratorModPlugin>.Info($"killed someone"); 
+        }
+    }
     
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.Update))]
     [HarmonyPostfix]
     public static void EnterRoomPatch()
     {
@@ -33,8 +46,8 @@ public class PlayerControlPatches
                 LastRoom = currentRoom;
                 NarrationEvents.RaiseRoomChangeEvent(LastRoom);
             }
+            TaskPatches.Deteriorate();
+            MeetingPatches.Deteriorate();
         }
-        
-        TaskPatches.Deteriorate();
     }
 }

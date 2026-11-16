@@ -25,8 +25,26 @@ public class SettingsOption : MonoBehaviour
         
         nextButton.OnClick.RemoveAllListeners();
         previousButton.OnClick.RemoveAllListeners();
+        
+        nextButton.OnClick.AddListener((Action)(() =>
+        {
+            Toggle(true);
+        }));
+        
+        previousButton.OnClick.AddListener((Action)(() =>
+        {
+            Toggle(false);
+        }));
 
         OptionName = gameObject.name;
+        
+        Toggle(true);
+    }
+
+    public void Toggle(bool next)
+    {
+        if (SettingsManager.Instance == null) return;
+        SettingsManager.Instance.UpdateSetting(this, next);
     }
 
     public void UpdateValue(string value)

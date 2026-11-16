@@ -16,17 +16,17 @@ public class NarrationEntryNormal
     public string Subtitle;
 
     /// <summary>
-    /// Language code following ISO format (e.g., "en-US", "es-ES").
+    /// Language (unused)
     /// </summary>
     public string Language;
 
     /// <summary>
-    /// Indicates if this clip contains strong language/profanity.
+    /// Indicates if this clip contains profanity.
     /// </summary>
     public bool ContainsSwearWords;
 
     /// <summary>
-    /// Direct reference to loaded Unity AudioClip (populated when loaded).
+    /// Unity audio clip
     /// </summary>
     public AudioClip Clip;
 

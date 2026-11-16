@@ -1,5 +1,7 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 using InnerNet;
+using NarratorMod.API;
 using NarratorMod.Events.Enums;
 using Reactor.Utilities;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace NarratorMod.Events.Patches;
 public class MeetingPatches
 {
     private static float VoteTimer;
+    private static float TotalElapsed;
     public static int MessagesSent;
     private static bool didWarnYapping;
     
@@ -18,15 +21,16 @@ public class MeetingPatches
     public static void OnMeetingOpen()
     {
         VoteTimer = 0f;
-        //NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenChat, null);
+        TotalElapsed = 0f;
     }
     
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
     [HarmonyPostfix]
     public static void OnChatOpen(ChatController __instance)
     {
-        //NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenChat, null);
+        if (__instance.IsClosedOrClosing) return;
         NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenChat);
+        Logger<NarratorModPlugin>.Info($"chat opened"); 
     }
     
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Close))]
@@ -40,41 +44,46 @@ public class MeetingPatches
     [HarmonyPostfix]
     public static void CastVote(PlayerId srcPlayerId, PlayerId suspectPlayerId)
     {
-        Logger<NarratorModPlugin>.Info($"Voted {srcPlayerId}");
-        Logger<NarratorModPlugin>.Info($"Voted {suspectPlayerId}");
-        
         NetworkedPlayerInfo playerById = GameData.Instance.GetPlayerById(srcPlayerId);
-        NetworkedPlayerInfo playerById2 = GameData.Instance.GetPlayerById(suspectPlayerId);
 
         if (playerById._object == PlayerControl.LocalPlayer)
         {
             if (VoteTimer < 5f)
             {
-                // voted too fast
-                //NarrationEvents.RaiseMeetingEvent(MeetingEvents.FastVote, playerById2._object);
+                Logger<NarratorModPlugin>.Info($"fast vote"); // works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.FastVote);
             }
+            else if(TotalElapsed > GameOptionsManager.Instance.CurrentGameOptions.GetInt(Int32OptionNames.VotingTime) - 5)
+            {
+                NarrationEvents.RaiseMeetingEvent(MeetingEvents.LateVote);
+                Logger<NarratorModPlugin>.Info($"late vote");
+            }
             
-            // check vote cast
+            if (suspectPlayerId == 253)
+            { 
+                NarrationEvents.RaiseMeetingEvent(MeetingEvents.SkipVote);
+                Logger<NarratorModPlugin>.Info($"skipped"); //works
+                return;
+            }
             
-            //NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotePlayer, playerById2._object);
+            NetworkedPlayerInfo playerById2 = GameData.Instance.GetPlayerById(suspectPlayerId);
 
-            if (playerById2.Role.TeamType == RoleTeamTypes.Impostor &&
+            if (playerById.Role.TeamType == RoleTeamTypes.Impostor &&
                 playerById2.Role.TeamType == RoleTeamTypes.Impostor)
             {
+                Logger<NarratorModPlugin>.Info($"voted impostor"); //works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VoteImpostor);
             }
         }
     }
     
-    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.VotingComplete))]
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CalculateVotes))]
     [HarmonyPostfix]
     public static void OnVotingEnd()
     {
         if (!MeetingHud.Instance.DidVote(PlayerControl.LocalPlayer.PlayerId))
         {
-            // didn't vote
-            //NarrationEvents.RaiseMeetingEvent(MeetingEvents.NoVote, null);
+            Logger<NarratorModPlugin>.Info($"no vote"); //didnt work
             NarrationEvents.RaiseMeetingEvent(MeetingEvents.NoVote);
         }
     }
@@ -85,15 +94,14 @@ public class MeetingPatches
     {
         if (!voteTie && player._object == PlayerControl.LocalPlayer && !wasOverruled)
         {
-            // check imp/crew
-            //NarrationEvents.RaiseMeetingEvent(MeetingEvents.Exiled, null);
-
             if (PlayerControl.LocalPlayer.Data.Role.TeamType == RoleTeamTypes.Crewmate)
             {
+                Logger<NarratorModPlugin>.Info($"voted as crew"); //works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotedAsCrew);
             }
             if (PlayerControl.LocalPlayer.Data.Role.TeamType == RoleTeamTypes.Impostor)
             {
+                Logger<NarratorModPlugin>.Info($"voted as impostor"); //works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotedAsImpostor);
             }
         }
@@ -104,18 +112,14 @@ public class MeetingPatches
         if (MeetingHud.Instance && MeetingHud.Instance.CurrentState == MeetingHud.MeetingStates.NotVoted)
         {
             VoteTimer += Time.deltaTime;
+            TotalElapsed += Time.deltaTime;
             
             if (VoteTimer > 40f)
             {
-                //NarrationEvents.RaiseMeetingEvent(MeetingEvents.SlowVote, null);
-                NarrationEvents.RaiseMeetingEvent(MeetingEvents.LateVote);
+                NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotingAlmostDone);
+                Logger<NarratorModPlugin>.Info($"almost done voting"); //works
+                VoteTimer = 0f;
             }
         }
-
-        /*if (MessagesSent > 20 && !didWarnYapping)
-        {
-            NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenChat, null);
-            didWarnYapping = true;
-        }*/
     }
 }

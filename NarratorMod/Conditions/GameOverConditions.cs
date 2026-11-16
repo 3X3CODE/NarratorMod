@@ -24,22 +24,23 @@ public class GameOverConditions : INarrationCondition
         switch (reason)
         {
             case GameOverEvents.CrewWin:
-                NarratorRegistry.TriggerEvent($"English.GameOver.Crewmate.CrewWin");
+                NarratorRegistry.TriggerEvent($"GameOver.Crewmate.CrewWin");
                 break;
             case GameOverEvents.CrewTaskWin:
-                NarratorRegistry.TriggerEvent($"English.GameOver.Crewmate.CrewTaskWin");
+                // doesnt work
+                NarratorRegistry.TriggerEvent($"GameOver.Crewmate.CrewTaskWin");
                 break;
             case GameOverEvents.CrewLoss:
-                NarratorRegistry.TriggerEvent($"English.GameOver.Crewmate.CrewLoss");
+                NarratorRegistry.TriggerEvent($"GameOver.Crewmate.CrewLoss");
                 break;
             case GameOverEvents.ImpWin:
-                NarratorRegistry.TriggerEvent($"English.GameOver.ImpostorWin");
+                NarratorRegistry.TriggerEvent($"GameOver.Impostor.ImpostorWin");
                 break;
             case GameOverEvents.ImpTaskWin:
-                NarratorRegistry.TriggerEvent($"English.GameOver.ImpostorTaskWin");
+                NarratorRegistry.TriggerEvent($"GameOver.Impostor.ImpostorTaskWin");
                 break;
             case GameOverEvents.ImpLoss:
-                NarratorRegistry.TriggerEvent($"English.GameOver.ImpostorLoss");
+                NarratorRegistry.TriggerEvent($"GameOver.Impostor.ImpostorLoss");
                 break;
         }
     }

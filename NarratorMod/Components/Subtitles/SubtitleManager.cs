@@ -48,7 +48,7 @@ public class SubtitleManager : MonoBehaviour
         subtitle ??= LastSubtitle;
         if (subtitle == null) return;
         
-        SubtitleRoutine = this.StartCoroutine(StartSubtitleCoroutine(subtitle, text, duration, narrator));
+        SubtitleRoutine = this.StartCoroutine(StartSubtitleCoroutine(subtitle, text, narrator));
     }
 
     public void StopSubtitle()
@@ -57,25 +57,27 @@ public class SubtitleManager : MonoBehaviour
         this.StartCoroutine(EndSubtitleCoroutine());
     }
 
-    public IEnumerator StartSubtitleCoroutine(ISubtitle subtitle, string text, float duration, string author)
+    public IEnumerator StartSubtitleCoroutine(ISubtitle subtitle, string text, string author)
     {
         if (SubtitleContainer == null || NarratorTMP == null || TextTMP == null) yield break;
 
         LastSubtitle = subtitle;
+        
+        ResetState();
 
         NarratorTMP.text = $"[{author}]";
         
-        yield return this.StartCoroutine(subtitle.TransitionIn(SubtitleContainer));
+        this.StartCoroutine(subtitle.TransitionIn(SubtitleContainer));
         yield return this.StartCoroutine(subtitle.TextAnimation(text, TextTMP));
-        yield return new WaitForSeconds(duration);
-        yield return this.StartCoroutine(subtitle.TransitionOut(SubtitleContainer));
-        ResetState();
+        //yield return new WaitForSeconds(duration);
+        //yield return this.StartCoroutine(subtitle.TransitionOut(SubtitleContainer));
+        //ResetState();
     }
     
     public IEnumerator EndSubtitleCoroutine()
     {
         if (SubtitleContainer == null || LastSubtitle == null) yield break;
-        
+        if (SubtitleRoutine != null) StopCoroutine(SubtitleRoutine);
         yield return this.StartCoroutine(LastSubtitle.TransitionOut(SubtitleContainer));
         ResetState();
     }

@@ -1,4 +1,4 @@
-﻿using NarratorMod.API;
+﻿/*using NarratorMod.API;
 using NarratorMod.Events;
 using Reactor.Utilities;
 
@@ -23,4 +23,4 @@ public class MeetingPopoverConditions : INarrationCondition
         if (open) NarratorRegistry.TriggerEvent("");
         else NarratorRegistry.TriggerEvent("");
     }
-}
+}*/

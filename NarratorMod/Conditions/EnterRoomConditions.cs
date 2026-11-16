@@ -8,19 +8,17 @@ public class EnterRoomConditions : INarrationCondition
 {
     public void Subscribe()
     {
-        //NarrationEvents.OnEnterRoom += OnEnterRoom;
         NarrationEvents.OnRoomChangeEvent += OnEnterRoom;
     }
     
     public void Unsubscribe()
     {
-        //NarrationEvents.OnEnterRoom -= OnEnterRoom;
         NarrationEvents.OnRoomChangeEvent -= OnEnterRoom;
     }
 
     public void OnEnterRoom(SystemTypes room)
     {
-        NarratorRegistry.TriggerEvent($"English.RoomEnter.{room.ToString()}");
+        NarratorRegistry.TriggerEvent($"RoomEnter.{room.ToString()}");
         Logger<NarratorModPlugin>.Info($"Room entered {room.ToString()}");
     }
 }

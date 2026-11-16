@@ -12,7 +12,7 @@ public class NarratorRegistry
     public static INarrator? ActiveNarrator { get; private set; }
     public static List<string> AllLanguages = new();
 
-    public static string ActiveLanguage;
+    public static string? ActiveLanguage;
     public static bool AllowSwear;
 
     public static void RegisterNarrator(INarrator narrator)
@@ -69,36 +69,41 @@ public class NarratorRegistry
     {
         if (AllLanguages.Contains(language)) return;
         AllLanguages.Add(language);
+        ActiveLanguage ??= language;
     }
 
     public static void NextLanguage()
     {
         if (AllLanguages.Count <= 0) return;
-        if (ActiveLanguage == string.Empty)
+        if (ActiveLanguage == null)
         {
             ActiveLanguage = AllLanguages[0];
             return;
         }
-
-        int nextIndex = AllLanguages.IndexOf(ActiveLanguage) + 1;
-        nextIndex = nextIndex > AllLanguages.Count - 1 ? 0 : nextIndex;
-        ActiveLanguage = AllLanguages[nextIndex];
-        SettingsManager.Instance.UpdateLanguage(ActiveLanguage);
+        int index = AllLanguages.IndexOf(ActiveLanguage);
+        if (index != -1 && index + 1 < AllLanguages.Count)
+        {
+            ActiveLanguage = AllLanguages[index + 1];
+            return;
+        }
+        else ActiveLanguage = AllLanguages[0];
     }
     
     public static void PreviousLanguage()
     {
         if (AllLanguages.Count <= 0) return;
-        if (ActiveLanguage == string.Empty)
+        if (ActiveLanguage == null)
         {
             ActiveLanguage = AllLanguages[0];
             return;
         }
-
-        int nextIndex = AllLanguages.IndexOf(ActiveLanguage) - 1;
-        nextIndex = nextIndex < 0 ? AllLanguages.Count - 1 : nextIndex;
-        ActiveLanguage = AllLanguages[nextIndex];
-        SettingsManager.Instance.UpdateLanguage(ActiveLanguage);
+        int index = AllLanguages.IndexOf(ActiveLanguage);
+        if (index > 0)
+        {
+            ActiveLanguage = AllLanguages[index - 1];
+            return;
+        }
+        else ActiveLanguage = AllLanguages[AllLanguages.Count - 1];
     }
     
     public static void TriggerEvent(string eventKey, int priority = 0)

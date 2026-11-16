@@ -11,21 +11,7 @@ public class MeetingPopoverPatches
     [HarmonyPostfix]
     public static void OpenPatch()
     {
-        //NarrationEvents.RaiseMeetingPopOverToggle(true);
+        Logger<NarratorModPlugin>.Info($"button opened");
         NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenButton);
     }
-    
-    /*[HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.OnDisable))]
-    [HarmonyPostfix]
-    public static void ClosePatch()
-    {
-        NarrationEvents.RaiseMeetingPopOverToggle(false);
-    }*/
-    
-    /*[HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.CallMeeting))]
-    [HarmonyPostfix]
-    public static void CallMeetingPatch()
-    {
-        NarrationEvents.RaiseMeetingEvent(MeetingEvents.Start, null);
-    }*/
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using NarratorMod.Components;
+﻿using System.Collections;
 using NarratorMod.Components.Subtitles;
-using NarratorMod.Extensions;
+using BepInEx.Unity.IL2CPP.Utils;
 using Reactor.Utilities;
 using UnityEngine;
 
@@ -32,8 +29,7 @@ public static class NarrationManager
         }
 
         var item = new QueueItem { Clip = clip, Priority = priority };
-
-        // Insert sorted by priority, highest first, stable relative to existing entries.
+        
         int insertIndex = Queue.FindIndex(q => q.Priority < priority);
         if (insertIndex == -1)
             Queue.Add(item);
@@ -55,7 +51,7 @@ public static class NarrationManager
 
     public static IEnumerator CycleQueue()
     {
-        while (ShipStatus.Instance)
+        while (HudManager.Instance)
         {
             if (Queue.Count > 0)
             {
@@ -68,7 +64,7 @@ public static class NarrationManager
                     SubtitleManager.Instance.StartSubtitle(item.Clip.Subtitle, NarratorRegistry.ActiveNarrator.Name, item.Clip.Clip.length, SubtitleRegistry.ActiveSubtitle);
                     Logger<NarratorModPlugin>.Info($"{item.Clip.Subtitle}");
                     yield return new WaitForSeconds(item.Clip.Clip.length);
-                    //SubtitleManager.Instance.StopSubtitle();
+                    yield return AmongUsClient.Instance.StartCoroutine(SubtitleManager.Instance.EndSubtitleCoroutine());
                     OnClipFinished?.Invoke(item.Clip);
                 }
             }
@@ -83,7 +79,6 @@ public static class NarrationManager
         Source = SoundManager.Instance.PlaySound(clip.Clip, false);
         OnClipStarted?.Invoke(clip);
     }
-
-    /// Call this on round start/end so stale queued lines from a previous round don't bleed in.
+    
     public static void ClearQueue() => Queue.Clear();
 }

@@ -1,4 +1,4 @@
-﻿using NarratorMod.Events;
+﻿/*using NarratorMod.Events;
 using Reactor.Utilities;
 
 namespace NarratorMod.Conditions;
@@ -26,4 +26,4 @@ public class SettingsConditions : INarrationCondition
     {
         Logger<NarratorModPlugin>.Info("setting changed");
     }
-}
+}*/

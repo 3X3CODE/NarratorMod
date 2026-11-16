@@ -26,26 +26,36 @@ public class SubtitleRegistry
         Logger<NarratorModPlugin>.Info($"Set active subtitle : {subtitle.GetType().Name}");
     }
 
-    public static string SetNext(ISubtitle? subtitle = null)
+    public static void SetNext(ISubtitle? subtitle = null)
     {
-        subtitle ??= ActiveSubtitle;
-        if (subtitle == null) return "";
-        int indexOfLast = RegisteredSubtitles.IndexOf(subtitle);
-        int indexOfNext = indexOfLast + 1 > RegisteredSubtitles.Count - 1 ? 0 : indexOfLast + 1;
-        ISubtitle next = RegisteredSubtitles[indexOfNext];
-        SetActiveSubtitle(next);
-        return next.GetType().Name;
+        if (RegisteredSubtitles.Count <= 0) return;
+        if (ActiveSubtitle == null)
+        {
+            SetActiveSubtitle(RegisteredSubtitles[0]);
+            return;
+        }
+        int index = RegisteredSubtitles.IndexOf(ActiveSubtitle);
+        if (index != -1 && index + 1 < RegisteredSubtitles.Count)
+        {
+            SetActiveSubtitle(RegisteredSubtitles[index + 1]);
+            return;
+        }
     }
     
-    public static string SetPrevious(ISubtitle? subtitle = null)
+    public static void SetPrevious(ISubtitle? subtitle = null)
     {
-        subtitle ??= ActiveSubtitle;
-        if (subtitle == null) return "";
-        int indexOfLast = RegisteredSubtitles.IndexOf(subtitle);
-        int indexOfNext = indexOfLast - 1 < 0 ? RegisteredSubtitles.Count - 1 : indexOfLast - 1;
-        ISubtitle next = RegisteredSubtitles[indexOfNext];
-        SetActiveSubtitle(next);
-        return next.GetType().Name;
+        if (RegisteredSubtitles.Count <= 0) return;
+        if (ActiveSubtitle == null)
+        {
+            SetActiveSubtitle(RegisteredSubtitles[0]);
+            return;
+        }
+        int index = RegisteredSubtitles.IndexOf(ActiveSubtitle);
+        if (index > 0)
+        {
+            SetActiveSubtitle(RegisteredSubtitles[index - 1]);
+            return;
+        }
     }
     
     public static void RegisterAllFromAssembly(Assembly? assembly = null)

@@ -1,5 +1,7 @@
 ﻿namespace NarratorMod.API;
 
+// unused for now
+
 public readonly struct NarrationRequest
 {
     public readonly string Key;

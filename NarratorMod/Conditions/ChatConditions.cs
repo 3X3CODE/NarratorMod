@@ -1,4 +1,4 @@
-﻿using NarratorMod.API;
+﻿/*using NarratorMod.API;
 using NarratorMod.Events;
 using NarratorMod.Events.Patches;
 using Reactor.Utilities;
@@ -48,4 +48,4 @@ public class ChatConditions : INarrationCondition
     {
         return message.Contains(text, StringComparison.OrdinalIgnoreCase);
     }
-}
+}*/

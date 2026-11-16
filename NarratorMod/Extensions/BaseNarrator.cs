@@ -15,6 +15,7 @@ public abstract class BaseNarrator : INarrator
     public abstract NarratorGenders Gender { get; }
     public abstract string BundleId { get; }
     public Sprite? ProfileImage { get; private set; }
+    public AudioClip? TrialAudio { get; private set; }
 
     public NarrationEntryDatabase Database { get; } = new();
 
@@ -53,8 +54,17 @@ public abstract class BaseNarrator : INarrator
                         continue;
                     }
                 }
+                else if (segments[^1] == "voice-trial.wav")
+                {
+                    var trial = bundle.LoadAsset<AudioClip>(assetPath);
+                    if (trial != null)
+                    {
+                        TrialAudio = trial.DontUnload();
+                        continue;
+                    }
+                }
                 
-                NarratorRegistry.AddLanguage(segments[3]);
+                NarratorRegistry.AddLanguage(char.ToUpper(segments[3][0]) + segments[3].Substring(1));
 
                 if (clip == null) continue;
                 
@@ -74,7 +84,6 @@ public abstract class BaseNarrator : INarrator
         if (segments.Length < 4)
         {
             // return file name
-            //Logger<NarratorModPlugin>.Info("Returning file name");
             return Path.GetFileNameWithoutExtension(segments[^1]);
         }
         

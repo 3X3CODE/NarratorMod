@@ -8,10 +8,11 @@ namespace NarratorMod.Events.Patches;
 public class GameOverPatches
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     public static void EndPatch(EndGameResult endGameResult)
     {
         //NarrationEvents.RaiseGameEnd(endGameResult.GameOverReason);
+        Logger<NarratorModPlugin>.Info($"Game over {endGameResult.GameOverReason}");
         switch (endGameResult.GameOverReason)
         {
             case GameOverReason.CrewmatesByVote:
