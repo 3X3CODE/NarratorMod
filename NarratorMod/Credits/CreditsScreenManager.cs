@@ -8,7 +8,8 @@ namespace NarratorMod.Credits;
 [RegisterInIl2Cpp]
 public sealed class CreditsScreenManager : MonoBehaviour
 {
-    private const string NARRATORS = "$ir Jackler(English), Hleb(Polish), Esto Sobrio(Spanish), Nolixo(German)";
+    // $ir Jackler(English), Hleb(Polish), Esto Sobrio(Spanish), Nolixo(German)
+    private const string NARRATORS = "$ir Jackler(English)";
 
     public static GameObject Additional;
     private static GameObject _puller;

@@ -18,7 +18,7 @@ public class PlayerControlPatches
         if (didSucceed)
         {
             NarrationEvents.RaiseImpostorEvent(ImpostorEvents.Kill);
-            Logger<NarratorModPlugin>.Info($"killed someone"); 
+            //Logger<NarratorModPlugin>.Info($"killed someone"); 
         }
     }
     

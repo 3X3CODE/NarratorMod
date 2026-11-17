@@ -37,11 +37,11 @@ public class NarrationEntryDatabase
 
     public NarrationEntryNormal GetEntry(string key)
     {
-        Logger<NarratorModPlugin>.Info(key);
+        //Logger<NarratorModPlugin>.Info(key);
         if (string.IsNullOrWhiteSpace(key)) return null;
         string clean = $"{NarratorRegistry.ActiveLanguage}.{key.ToLower()}";
 
-        Logger<NarratorModPlugin>.Info(clean);
+        //Logger<NarratorModPlugin>.Info(clean);
         
         // Direct match check
         if (_entriesByExactKey.TryGetValue(clean, out var exactMatch))

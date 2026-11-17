@@ -18,7 +18,7 @@ public class EnterRoomConditions : INarrationCondition
 
     public void OnEnterRoom(SystemTypes room)
     {
-        NarratorRegistry.TriggerEvent($"RoomEnter.{room.ToString()}");
+        //NarratorRegistry.TriggerEvent($"RoomEnter.{room.ToString()}");
         Logger<NarratorModPlugin>.Info($"Room entered {room.ToString()}");
     }
 }

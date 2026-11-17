@@ -21,7 +21,7 @@ public class NarratorRegistry
 
         RegisteredNarrators.Add(narrator);
 
-        Logger<NarratorModPlugin>.Info("Narrator registered");
+        Logger<NarratorModPlugin>.Info($"Registered narrator : {narrator.Name}");
         
         if (ActiveNarrator == null)
         {
@@ -36,7 +36,7 @@ public class NarratorRegistry
         {
             SettingsManager.Instance.UpdateNarrator(ActiveNarrator);
         }
-        Logger<NarratorModPlugin>.Info("Set active narrator");
+        Logger<NarratorModPlugin>.Info($"Set active narrator : {narrator.Name}");
     }
     
     public static void NextNarrator()

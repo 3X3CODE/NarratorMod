@@ -1,7 +1,6 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
-using NarratorMod.API;
 using NarratorMod.Events.Enums;
 using Reactor.Utilities;
 using UnityEngine;
@@ -30,7 +29,7 @@ public class MeetingPatches
     {
         if (__instance.IsClosedOrClosing) return;
         NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenChat);
-        Logger<NarratorModPlugin>.Info($"chat opened"); 
+        //Logger<NarratorModPlugin>.Info($"chat opened"); 
     }
     
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Close))]
@@ -50,19 +49,19 @@ public class MeetingPatches
         {
             if (VoteTimer < 5f)
             {
-                Logger<NarratorModPlugin>.Info($"fast vote"); // works
+                //Logger<NarratorModPlugin>.Info($"fast vote"); // works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.FastVote);
             }
             else if(TotalElapsed > GameOptionsManager.Instance.CurrentGameOptions.GetInt(Int32OptionNames.VotingTime) - 5)
             {
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.LateVote);
-                Logger<NarratorModPlugin>.Info($"late vote");
+                //Logger<NarratorModPlugin>.Info($"late vote");
             }
             
             if (suspectPlayerId == 253)
             { 
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.SkipVote);
-                Logger<NarratorModPlugin>.Info($"skipped"); //works
+                //Logger<NarratorModPlugin>.Info($"skipped"); //works
                 return;
             }
             
@@ -71,7 +70,7 @@ public class MeetingPatches
             if (playerById.Role.TeamType == RoleTeamTypes.Impostor &&
                 playerById2.Role.TeamType == RoleTeamTypes.Impostor)
             {
-                Logger<NarratorModPlugin>.Info($"voted impostor"); //works
+                //Logger<NarratorModPlugin>.Info($"voted impostor"); //works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VoteImpostor);
             }
         }
@@ -83,7 +82,7 @@ public class MeetingPatches
     {
         if (!MeetingHud.Instance.DidVote(PlayerControl.LocalPlayer.PlayerId))
         {
-            Logger<NarratorModPlugin>.Info($"no vote"); //didnt work
+            //Logger<NarratorModPlugin>.Info($"no vote"); //didnt work
             NarrationEvents.RaiseMeetingEvent(MeetingEvents.NoVote);
         }
     }
@@ -96,12 +95,12 @@ public class MeetingPatches
         {
             if (PlayerControl.LocalPlayer.Data.Role.TeamType == RoleTeamTypes.Crewmate)
             {
-                Logger<NarratorModPlugin>.Info($"voted as crew"); //works
+                //Logger<NarratorModPlugin>.Info($"voted as crew"); //works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotedAsCrew);
             }
             if (PlayerControl.LocalPlayer.Data.Role.TeamType == RoleTeamTypes.Impostor)
             {
-                Logger<NarratorModPlugin>.Info($"voted as impostor"); //works
+                //Logger<NarratorModPlugin>.Info($"voted as impostor"); //works
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotedAsImpostor);
             }
         }
@@ -117,7 +116,7 @@ public class MeetingPatches
             if (VoteTimer > 40f)
             {
                 NarrationEvents.RaiseMeetingEvent(MeetingEvents.VotingAlmostDone);
-                Logger<NarratorModPlugin>.Info($"almost done voting"); //works
+                //Logger<NarratorModPlugin>.Info($"almost done voting"); //works
                 VoteTimer = 0f;
             }
         }

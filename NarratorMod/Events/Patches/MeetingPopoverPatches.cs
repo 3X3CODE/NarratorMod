@@ -11,7 +11,7 @@ public class MeetingPopoverPatches
     [HarmonyPostfix]
     public static void OpenPatch()
     {
-        Logger<NarratorModPlugin>.Info($"button opened");
+        //Logger<NarratorModPlugin>.Info($"button opened");
         NarrationEvents.RaiseMeetingEvent(MeetingEvents.OpenButton);
     }
 }

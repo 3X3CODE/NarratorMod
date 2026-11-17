@@ -36,7 +36,7 @@ public static class NarrationManager
         else
             Queue.Insert(insertIndex, item);
 
-        Logger<NarratorModPlugin>.Info($"Queued narration '{clip.Key}' (priority {priority})");
+        //Logger<NarratorModPlugin>.Info($"Queued narration '{clip.Key}' (priority {priority})");
     }
 
     public static void Dequeue(string key)
@@ -62,7 +62,7 @@ public static class NarrationManager
                 {
                     PlayClip(item.Clip);
                     SubtitleManager.Instance.StartSubtitle(item.Clip.Subtitle, NarratorRegistry.ActiveNarrator.Name, item.Clip.Clip.length, SubtitleRegistry.ActiveSubtitle);
-                    Logger<NarratorModPlugin>.Info($"{item.Clip.Subtitle}");
+                    //Logger<NarratorModPlugin>.Info($"{item.Clip.Subtitle}");
                     yield return new WaitForSeconds(item.Clip.Clip.length);
                     yield return AmongUsClient.Instance.StartCoroutine(SubtitleManager.Instance.EndSubtitleCoroutine());
                     OnClipFinished?.Invoke(item.Clip);

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿/*using HarmonyLib;
 using Reactor.Utilities;
 
 namespace NarratorMod.Events.Patches;
@@ -41,4 +41,4 @@ public class CameraPatches
             Logger<NarratorModPlugin>.Info("Cams closed");
         }
     }
-}
+}*/

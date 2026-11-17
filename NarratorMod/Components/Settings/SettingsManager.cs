@@ -95,7 +95,8 @@ public class SettingsManager : MonoBehaviour
         if (narratorImageRend != null)
         {
             Sprite? image = narrator.ProfileImage;
-            if (image != null) narratorImageRend.sprite = image;
+            narratorImageRend.sprite = image;
+            //if (image != null) narratorImageRend.sprite = image;
         }
     }
     

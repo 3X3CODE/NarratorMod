@@ -18,7 +18,22 @@ public class AssetManager
         }
         
         assembly ??= Assembly.GetCallingAssembly();
-        AssetBundle bundle = AssetBundleManager.Load(assembly, name);
+        AssetBundle? bundle = null;
+        
+        try 
+        {
+            bundle = AssetBundleManager.Load(assembly, name);
+        }
+        catch(Exception e)
+        {
+            Logger<NarratorModPlugin>.Error($"Exception while loading bundle {name}, {e}");
+        }
+        
+        if (bundle == null)
+        {
+            Logger<NarratorModPlugin>.Error($"The bundle {name} failed to load from {assembly.FullName}");
+            return null;
+        }
         //bundle.Unload(false);
         LoadedBundles[name] = bundle;
 

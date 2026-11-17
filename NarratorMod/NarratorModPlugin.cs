@@ -21,9 +21,9 @@ namespace NarratorMod;
 [BepInPlugin(Id, Name, Version)]
 public class NarratorModPlugin : BasePlugin
 {
-    public const string Id = "com.exec.narratormod";
+    public const string Id = "com.nm.narratormod";
     public const string Name = "Narrator Mod";
-    public const string Version = "1.0.0-dev";
+    public const string Version = "1.0.0";
 
     public static bool IsDevBuild => Version.Contains("dev");
 
@@ -36,6 +36,7 @@ public class NarratorModPlugin : BasePlugin
         Harmony.PatchAll();
         AssetManager.LoadBundle("narrator-mod");
         NarratorRegistry.RegisterNarrator(new JacklerNarrator());
+        //NarratorRegistry.RegisterNarrator(new TestNarrator());
         ConditionManager.RegisterAllFromAssembly();
         SubtitleRegistry.RegisterAllFromAssembly();
         ReactorCredits.Register(Name, Version, IsDevBuild, ReactorCredits.AlwaysShow);

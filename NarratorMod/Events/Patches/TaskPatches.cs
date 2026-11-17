@@ -35,7 +35,7 @@ public class TaskPatches
         if (IsDoingTask && TotalElapsed < 10f)
         {
             // took too short on task
-            Logger<NarratorModPlugin>.Info($"fast task");
+            //Logger<NarratorModPlugin>.Info($"fast task");
             NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.FastTask);
         }
 
@@ -58,7 +58,7 @@ public class TaskPatches
         if (PlayerControl.LocalPlayer.AllTasksCompleted())
         {
             // all tasks completed
-            Logger<NarratorModPlugin>.Info($"all tasks done");
+            //Logger<NarratorModPlugin>.Info($"all tasks done");
             NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.CompleteAllTasks);
         }
     }
@@ -76,7 +76,7 @@ public class TaskPatches
             if (TimeSinceLast > 10f)
             {
                 TimeSinceLast = 0f;
-                Logger<NarratorModPlugin>.Info($"long task");
+                //Logger<NarratorModPlugin>.Info($"long task");
                 NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.LongTask);
             }
         }
@@ -87,7 +87,7 @@ public class TaskPatches
             if (IdleTime > 20f)
             {
                 IdleTime = 0f;
-                Logger<NarratorModPlugin>.Info($"no task");
+                //Logger<NarratorModPlugin>.Info($"no task");
                 NarrationEvents.RaiseCrewmateEvent(CrewmateEvents.NoTask);
             }
         }
