@@ -9,7 +9,9 @@
 It's finally here... after the very short time of 7 months! :3<br>
 This mod initially started as a concept via the help of our voice actor, **$ir Jackler** which has now led to the official release.
 
-HUGE thanks to $ir Jackler for his voice, our dev team, art team and last but not least, Pro for making this idea a reality.
+HUGE thanks to [$ir Jackler](https://linktr.ee/Jackler) for his voice, our dev team, art team and last but not least, Pro for making this idea a reality.
+
+Check out some [BTS](https://youtube.com/watch?v=JlhNBN-Olzw)
 
 Have fun!
 
