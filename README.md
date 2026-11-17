@@ -10,7 +10,7 @@ HUGE thanks to $ir Jackler for his voice, our dev team, art team and last but no
 
 Have fun!
 
-> ![NOTE]
+> [!NOTE]
 > This mod is still in development and may recieve more features in the future, stay tuned!
 > Feel free to share your suggestions and ideas.
 
