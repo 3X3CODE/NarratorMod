@@ -1,6 +1,9 @@
 ![Mod Banner](NMBanner.png)
 
 <h1 align="center">Narrator Mod</h1>
+<p align="center">
+<b>Narrator Mod is an Among Us mod that adds a narrator to narrate over your every move.</b>
+</p>
 
 ## Introduction
 It's finally here... after the very short time of 7 months! :3<br>
@@ -13,6 +16,16 @@ Have fun!
 > [!NOTE]
 > This mod is still in development and may recieve more features in the future, stay tuned!<br>
 > Feel free to share your suggestions and ideas.
+
+---
+
+# 🚀 Releases
+
+| Mod Version | Among Us - Version | Link |
+|-------------|---------------------|------|
+| v1.0.0      | v19 | [Download](https://github.com/CallOfCreator/NewMod/releases/download/V1.0.0/NewMod.dll) |
+
+---
 
 ## Narrations
 
