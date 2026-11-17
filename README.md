@@ -36,7 +36,7 @@ Have fun!
 
 ### Impostor Events
 
--Killing someone
+- Killing someone
 
 ## Other Features
 
