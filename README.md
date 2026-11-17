@@ -5,24 +5,6 @@
 <b>Narrator Mod is an Among Us mod that adds a narrator to narrate over your every move.</b>
 </p>
 
-<div style="display: flex; align-items: center; gap: 20px;">
-
-  <div style="flex: 1;">
-    <h1>Introduction</h1>
-    <p>It's finally here... after the very short time of 7 months! :3</p>
-    <p>This mod initially started as a concept via the help of our voice actor, **$ir Jackler** which has now led to the official release.</p>
-    <p>HUGE thanks to [$ir Jackler](https://linktr.ee/Jackler) for his voice, our dev team, art team and last but not least, Pro for making this idea a reality.</p>
-    <p>Check out some [BTS](https://www.youtube.com/watch?v=JIhNBN-OIzw)</p>
-    <p>Have fun!</p>
-    
-  </div>
-
-  <div style="flex: 1; text-align: center;">
-    <img src="NMLogo1.png" alt="Mod Logo" style="width: 50%; height: auto;" />
-  </div>
-
-</div>
-
 # Introduction
 It's finally here... after the very short time of 7 months! :3<br>
 This mod initially started as a concept via the help of our voice actor, **$ir Jackler** which has now led to the official release.
@@ -84,6 +66,7 @@ Have fun!
 
 ---
 
+![Mod Logo](NMLogo1.png)
 
 <h5 align="center">This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC.
 Portions of the materials contained herein are the property of Innersloth LLC.</h5>
