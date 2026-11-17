@@ -23,7 +23,7 @@ Have fun!
 
 | Mod Version | Among Us - Version | Link |
 |-------------|---------------------|------|
-| v1.0.0      | v19 | [Download](https://github.com/CallOfCreator/NewMod/releases/download/V1.0.0/NewMod.dll) |
+| v1.0.0      | v19 | [Download](https://github.com/3X3CODE/NarratorMod/releases/download/v1.0.0/NarratorMod.dll) |
 
 ---
 
