@@ -3,7 +3,7 @@
 <h1 align="center">Narrator Mod</h1>
 
 ## Introduction
-It's finally here... after the very short time of 7 months! :3
+It's finally here... after the very short time of 7 months! :3<br>
 This mod initially started as a concept via the help of our voice actor, **$ir Jackler** which has now led to the official release.
 
 HUGE thanks to $ir Jackler for his voice, our dev team, art team and last but not least, Pro for making this idea a reality.
@@ -11,7 +11,7 @@ HUGE thanks to $ir Jackler for his voice, our dev team, art team and last but no
 Have fun!
 
 > [!NOTE]
-> This mod is still in development and may recieve more features in the future, stay tuned!
+> This mod is still in development and may recieve more features in the future, stay tuned!<br>
 > Feel free to share your suggestions and ideas.
 
 ## Narrations
