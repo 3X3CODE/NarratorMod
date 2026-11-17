@@ -1,10 +1,6 @@
 ![Mod Banner](NMBanner.png)
 
-<p align="center">
-  <img src="NMBanner.png" alt="Banner">
-</p>
-
-# Narrator Mod (in beta)
+<h1 align="center">Narrator Mod</h1>
 
 ### Narrations
 
