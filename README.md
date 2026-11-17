@@ -5,7 +5,7 @@
 <b>Narrator Mod is an Among Us mod that adds a narrator to narrate over your every move.</b>
 </p>
 
-## Introduction
+# Introduction
 It's finally here... after the very short time of 7 months! :3<br>
 This mod initially started as a concept via the help of our voice actor, **$ir Jackler** which has now led to the official release.
 
@@ -27,9 +27,9 @@ Have fun!
 
 ---
 
-## Narrations
+# Narrations
 
-### Meeting Events
+## Meeting Events
 - Fast vote
 - Vote at last moment
 - Voting almost done
@@ -40,18 +40,20 @@ Have fun!
 - Open chat
 - Open the button
 
-### Crew Events
+## Crew Events
 
 - Taking long on a task
 - Taking short on a task
 - No task in awhile
 - Completing all your tasks
 
-### Impostor Events
+## Impostor Events
 
 - Killing someone
 
-## Other Features
+---
+
+# Other Features
 
 - Credits Menu
 - Settings Menu (in lobby)
@@ -59,6 +61,8 @@ Have fun!
 - Narrator Extension API
 - Subtitle API
 - Condition and Events API
+
+---
 
 
 <h5 align="center">This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC.
