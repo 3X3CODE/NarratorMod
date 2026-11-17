@@ -11,7 +11,7 @@ This mod initially started as a concept via the help of our voice actor, **$ir J
 
 HUGE thanks to [$ir Jackler](https://linktr.ee/Jackler) for his voice, our dev team, art team and last but not least, Pro for making this idea a reality.
 
-Check out some [BTS](https://youtube.com/watch?v=JlhNBN-Olzw)
+Check out some [BTS](https://www.youtube.com/watch?v=JIhNBN-OIzw)
 
 Have fun!
 
