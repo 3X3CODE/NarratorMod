@@ -35,9 +35,10 @@ Have fun!
 - Fast vote
 - Vote at last moment
 - Voting almost done
-- Voted out as crew
-- Voted out as imp
-- Voted imp partner
+- Voted out as crewmate
+- Voted out as impostor
+- Voted impostor partner
+- Voted crewmate
 - Skip
 - Open chat
 - Open the button
@@ -65,8 +66,6 @@ Have fun!
 - Condition and Events API
 
 ---
-
-![Mod Logo](NMLogo1.png)
 
 <h5 align="center">This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC.
 Portions of the materials contained herein are the property of Innersloth LLC.</h5>
