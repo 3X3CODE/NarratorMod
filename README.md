@@ -43,6 +43,13 @@ Have fun!
 - Open chat
 - Open the button
 
+## General Events
+- Enter Communications
+- Enter Medbay
+- Enter Electrical
+- Enter Admin
+
+
 ## Crew Events
 
 - Taking long on a task
