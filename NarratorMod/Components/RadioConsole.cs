@@ -16,25 +16,29 @@ public class RadioConsole : MonoBehaviour
     private GameObject? _settings;
     private GameObject? _highlight;
 
-    public float UsableDistance => 1.0f;
+    public float UsableDistance => 1.5f;
     public float PercentCool => 0;
     public ImageNames UseIcon => ImageNames.UseButton;
 
     private void Start()
     {
         _rend = GetComponent<SpriteRenderer>();
-        //_rend.material = new(LobbyBehaviour.Instance.GetComponentInChildren<OptionsConsole>().Outline.material);
+        _rend.material = new(LobbyBehaviour.Instance.GetComponentInChildren<OptionsConsole>().Outline.material);
         _highlight = transform.Find("Highlight").gameObject;
-        _highlight.SetActive(false);;
+        _highlight.SetActive(false);
+        _highlight.GetComponent<SpriteRenderer>().sortingOrder = 0;
     }
 
     private void SetOutline(bool isVisible, bool isTargeted)
     {
-        if (_rend == null) return;
+        if (_rend == null || _highlight == null) return;
         
         _rend.material.SetFloat("_Outline", isVisible ? 1 : 0);
         _rend.material.SetColor("_OutlineColor", Color.white);
         _rend.material.SetColor("AddColor", isTargeted ? Color.white : Color.clear);
+
+        _rend.enabled = !isTargeted;
+        _highlight.SetActive(isTargeted);
     }
 
     public float CanUse(NetworkedPlayerInfo playerInfo, out bool canUse, out bool couldUse)
@@ -88,15 +92,4 @@ public class RadioConsole : MonoBehaviour
             SetLayerRecursively(child, layer);
         }
     }
-    
-    /*public void Update()
-    {
-        CanUse(PlayerControl.LocalPlayer.Data, out var canUse, out _);
-        if (canUse && !_highlight.active)
-        {
-            _highlight.SetActive(true);
-            return;
-        }
-        _highlight.SetActive(false);
-    }*/
 }

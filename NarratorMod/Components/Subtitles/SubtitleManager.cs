@@ -21,7 +21,7 @@ public class SubtitleManager : MonoBehaviour
     public static TextMeshPro? NarratorTMP;
     public static TextMeshPro? TextTMP;
     
-    public static Vector3 DefaultPos { get; set; } = new Vector3(0f, -1.5f, 0f);
+    public static Vector3 DefaultPos { get; set; } = new Vector3(0f, -1.5f, -500);
     public static Vector3 DefaultScale { get; set; } = new Vector3(0.1f, 0.1f, 0.1f);
     
     public void Awake()
@@ -39,7 +39,9 @@ public class SubtitleManager : MonoBehaviour
         TextTMP = SubtitleContainer.transform.Find("TextTMP").GetComponent<TextMeshPro>();
         NarratorTMP.gameObject.layer = LayerMask.NameToLayer("UI");
         TextTMP.gameObject.layer = LayerMask.NameToLayer("UI");
-        
+        var exampleText = HudManager.Instance.roomTracker.text;
+        TextTMP.font = NarratorTMP.font = exampleText.font;
+        TextTMP.fontMaterial = NarratorTMP.fontMaterial = new Material(exampleText.fontMaterial);
         ResetState();
     }
 

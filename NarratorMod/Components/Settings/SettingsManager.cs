@@ -35,6 +35,13 @@ public class SettingsManager : MonoBehaviour
         }
 
         Instance = this;
+        
+        //Fix Layering for GOs
+        var layer = LayerMask.NameToLayer("UI");
+        foreach (var t in GetComponentsInChildren<Transform>(true))
+        {
+            t.gameObject.layer = layer;
+        }
 
         narratorNameTMP = transform.Find("Scroller/Slider/NarratorSettings/NarratorHeader/NarratorName_TMP")
             .GetComponent<TextMeshPro>();
@@ -60,37 +67,41 @@ public class SettingsManager : MonoBehaviour
         nextNarratorButton.OnClick.RemoveAllListeners();
         playNarratorVoiceButton.OnClick.RemoveAllListeners();
         
-        nextNarratorButton.OnClick.AddListener((Action)(() =>
-        {
-            NarratorRegistry.NextNarrator();
-        }));
+        nextNarratorButton.OnClick.AddListener((Action)(NarratorRegistry.NextNarrator));
         
-        previousNarratorButton.OnClick.AddListener((Action)(() =>
-        {
-            NarratorRegistry.PreviousNarrator();
-        }));
+        previousNarratorButton.OnClick.AddListener((Action)(NarratorRegistry.PreviousNarrator));
         
-        playNarratorVoiceButton.OnClick.AddListener((Action)(() =>
-        {
-            PlayTrialAudio();
-        }));
+        playNarratorVoiceButton.OnClick.AddListener((Action)(PlayTrialAudio));
 
         if (NarratorRegistry.ActiveNarrator != null)
         {
             UpdateNarrator(NarratorRegistry.ActiveNarrator);
         }
 
-        var exampleButton = HudManager.Instance.GameMenu.StreamerModeButton;
+        var exampleButton = HudManager.Instance.GameMenu.bugReportPopup.submitButton;
         foreach (var btn in GetComponentsInChildren<PassiveButton>(true))
         {
             btn.ClickSound = exampleButton.ClickSound;
             btn.HoverSound = exampleButton.HoverSound;
         }
+
+        var transitionOpen = gameObject.AddComponent<TransitionOpen>();
+        transitionOpen.duration = 0.2f;
+        transitionOpen.targetSize = 0.5f;
     }
     
     public void PlayTrialAudio()
     {
         NarratorRegistry.TriggerEvent("voice-trial");
+    }
+
+    private void OnEnable()
+    {
+        ControllerManager.Instance.OpenOverlayMenu("NarratorMenu", null);
+    }
+    private void OnDisable()
+    {
+        ControllerManager.Instance.CloseOverlayMenu("NarratorMenu");
     }
 
     public void UpdateNarrator(INarrator narrator)
