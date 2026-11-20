@@ -29,6 +29,10 @@ Have fun!
 
 ---
 
+# Dependencies
+
+- [Reactor](https://github.com/NuclearPowered/Reactor/releases/latest)
+
 # Narrations
 
 ## Meeting Events
