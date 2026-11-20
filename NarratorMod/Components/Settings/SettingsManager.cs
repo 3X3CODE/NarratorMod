@@ -79,6 +79,13 @@ public class SettingsManager : MonoBehaviour
         {
             UpdateNarrator(NarratorRegistry.ActiveNarrator);
         }
+
+        var exampleButton = HudManager.Instance.GameMenu.StreamerModeButton;
+        foreach (var btn in GetComponentsInChildren<PassiveButton>(true))
+        {
+            btn.ClickSound = exampleButton.ClickSound;
+            btn.HoverSound = exampleButton.HoverSound;
+        }
     }
     
     public void PlayTrialAudio()
